@@ -3,7 +3,7 @@ import 'package:password_golf/pwned_passwords_client.dart';
 import 'dart:io';
 import 'package:ansicolor/ansicolor.dart';
 import 'dart:convert';
-import 'package:path/path.dart' show dirname, join;
+import 'package:path/path.dart' show dirname;
 
 void main(List<String> arguments) async{
   //load settings if any
