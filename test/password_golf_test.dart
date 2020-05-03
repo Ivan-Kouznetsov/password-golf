@@ -1,3 +1,4 @@
+import 'package:password_golf/game.dart';
 import 'package:password_golf/player.dart';
 import 'package:password_golf/pwned_passwords_client.dart';
 import 'package:test/test.dart';
@@ -16,5 +17,29 @@ void main() {
     final player = Player('name');
     player.recordScore(10);
     expect(player.getScore(), 10);
+  });
+
+  test('should select winner whe other players have null scores', () {
+    final players = <Player>[];  
+    players.add(Player('a'));
+    players.add(Player('b'));
+    players.add(Player('c'));
+    players[0].recordScore(10);
+
+    final game = Game.fromPlayers(client, players, 1);
+    expect(game.decideWinners()[0].getName(), 'a');
+  });
+
+  test('should select winner whe other players have not null scores', () {
+    final players = <Player>[];
+    players.add(Player('a'));
+    players.add(Player('b'));
+    players.add(Player('c'));
+    players[0].recordScore(10);
+    players[1].recordScore(5);
+    players[2].recordScore(2);
+
+    final game = Game.fromPlayers(client, players, 1);
+    expect(game.decideWinners()[0].getName(), 'c');
   });
 }

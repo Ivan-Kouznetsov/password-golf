@@ -22,13 +22,23 @@ class Game{
     _rounds = rounds;
   }
 
+  Game.fromPlayers(PwnedPasswordsClient client, List<Player> players, int rounds){
+    _client = client;
+    players.forEach((player) {
+      _players.add(player);
+    });
+    _rounds = rounds;
+  }
+
   List<Player> decideWinners(){
     // ignore: omit_local_variable_types
     List<Player> winners = [];
-    _players.where((player) => player.getScore()!=null).toList().sort((a,b) => a.getScore().compareTo(b.getScore()));
-    final bestScore = _players[0].getScore();
+    var nonNullScoringPlayers = _players.where((player) => player.getScore()!=null).toList();    
+    nonNullScoringPlayers.sort((a,b) => a.getScore().compareTo(b.getScore()));
+    
+    final bestScore = nonNullScoringPlayers.first.getScore();
 
-    _players.forEach((player) {
+    nonNullScoringPlayers.forEach((player) {
       if (player.getScore() == bestScore) winners.add(player);
     });
 
