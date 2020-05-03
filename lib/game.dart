@@ -33,12 +33,9 @@ class Game{
   List<Player> decideWinners(){
     // ignore: omit_local_variable_types
     List<Player> winners = [];
-    var nonNullScoringPlayers = _players.where((player) => player.getScore()!=null).toList();    
-    nonNullScoringPlayers.sort((a,b) => a.getScore().compareTo(b.getScore()));
+    final bestScore =(_players.where((player) => player.getScore()!=null).toList()..sort((a,b) => a.getScore().compareTo(b.getScore()))).first.getScore();
     
-    final bestScore = nonNullScoringPlayers.first.getScore();
-
-    nonNullScoringPlayers.forEach((player) {
+    _players.forEach((player) {
       if (player.getScore() == bestScore) winners.add(player);
     });
 

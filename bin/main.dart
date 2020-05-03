@@ -3,10 +3,11 @@ import 'package:password_golf/pwned_passwords_client.dart';
 import 'dart:io';
 
 void main(List<String> arguments) async{
+
   const defaultRounds = 3;
 
   print('Password Golf');
-  print('Rules: Try to guess which passwords have been exposed the fewest number of times, player with lowest score at the end of the last round wins');
+  print('Rules: Try to guess which passwords have been exposed the fewest number of times, player with lowest score at the end of the last round wins.');
   stdout.write('Players:');
   final playerNames = stdin.readLineSync();
 
