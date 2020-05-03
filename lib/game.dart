@@ -1,11 +1,17 @@
 import 'dart:io';
 import 'package:password_golf/player.dart';
 import 'package:password_golf/pwned_passwords_client.dart';
+import 'package:ansicolor/ansicolor.dart';
 
 class Game{
   final List<Player> _players = [];
   int _rounds;
   PwnedPasswordsClient _client;
+
+  var scorePen = AnsiPen()..yellow();
+  var namePen = AnsiPen()..white(bold:true);
+  var deathPen = AnsiPen()..red(bold:true);
+  var winPen = AnsiPen()..cyan();
 
   Game(PwnedPasswordsClient client, List<String> playerNames, int rounds){
     _client = client;
@@ -50,46 +56,51 @@ class Game{
 
     var winners = decideWinners();
     if (winners.length==1){
-      print('The winner is: ${winners[0].getName()} with a score of ${winners[0].getScore()}.');
+      print('The winner is: ${namePen(winners[0].getName())} with a score of ${scorePen(winners[0].getScore().toString())}.');
     }else{
       print("It's tie between:");
       winners.forEach((winner) {
-        print(winner.getName() + ': ' + winner.getScore().toString());
+        print(namePen(winner.getName()) + ': ' + scorePen(winner.getScore().toString()));
       });
     }
   }
 
   Future<bool> _playRound() async{
     for(var i=0;i<_players.length;i++){
-       final score = await _client.getCount(_getHiddenInput("${_players[i].getName()}'s turn:"));
+       final score = await _client.getCount(_getHiddenInput("${namePen(_players[i].getName())}'s turn:"));
       
        if (score == 0 || score == null)
        {
-          print('This password was not exposed.');
+          print('\nThis password was not exposed.');
        }
        else if(score == 1){
-          print('\nSudden Death\n');
+          print(deathPen('\nSudden Death\n'));
           _players[i].recordScore(score);
           return false;
        }
        else
        {
-          print('This password was exposed ${score} times.');
+          print('\nThis password was exposed ${scorePen(score.toString())} times.');
           _players[i].recordScore(score);
        }
        
-       print("${_players[i].getName()}'s best score: ${_players[i].getScore() ?? 'None'}");
+       print("${namePen(_players[i].getName())}'s best score: ${scorePen(_players[i].getScore() == null ? 'None' : _players[i].getScore().toString())}");
     }
     return true;
   }
 
   String _getHiddenInput(String prompt){
     stdout.write(prompt);
-    stdin.echoMode = false;
-    final input = stdin.readLineSync();
-    stdin.echoMode = true;
-
-    return input;
+    try{
+      stdin.echoMode = false;
+      final input = stdin.readLineSync();
+      stdin.echoMode = true;
+      return input;
+    }catch(ex){
+      // some terminals don't support stdin.echoMode = false;
+      final input = stdin.readLineSync();
+      return input;
+    }    
   }
   
 }
