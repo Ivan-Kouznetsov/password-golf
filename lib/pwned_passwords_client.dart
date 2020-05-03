@@ -4,7 +4,7 @@ import 'package:crypto/crypto.dart';
 
 class PwnedPasswordsClient{
   String _url;
-  PwnedPasswordsClient({url = 'https://api.pwnedpasswords.com/range/'}){
+  PwnedPasswordsClient([String url = 'https://api.pwnedpasswords.com/range/']){
     _url = url;
   }
 
