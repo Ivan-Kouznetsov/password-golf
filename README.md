@@ -1,5 +1,2 @@
-A sample command-line application with an entrypoint in `bin/`, library code
-in `lib/`, and example unit test in `test/`.
-
-Created from templates made available by Stagehand under a BSD-style
-[license](https://github.com/dart-lang/stagehand/blob/master/LICENSE).
+# Password Golf
+Try to guess which passwords have been exposed the fewest number of times, player with lowest score at the end of the last round wins
