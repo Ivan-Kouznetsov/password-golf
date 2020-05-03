@@ -19,7 +19,7 @@ void main() {
     expect(player.getScore(), 10);
   });
 
-  test('should select winner whe other players have null scores', () {
+  test('should select winner when other players have null scores', () {
     final players = <Player>[];  
     players.add(Player('a'));
     players.add(Player('b'));
@@ -30,7 +30,7 @@ void main() {
     expect(game.decideWinners()[0].getName(), 'a');
   });
 
-  test('should select winner whe other players have not null scores', () {
+  test('should select winner when other players have not null scores', () {
     final players = <Player>[];
     players.add(Player('a'));
     players.add(Player('b'));
